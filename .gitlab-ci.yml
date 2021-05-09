@@ -1,0 +1,73 @@
+stages:
+  - lint
+  - test
+  - build
+  - deploy
+  - test-e2e
+
+# to cache both npm modules and Cypress binary we use environment variables
+# to point at the folders we can list as paths in "cache" job settings
+variables:
+  npm_config_cache: '/builds/js/obs-roaming/.npm'
+  CYPRESS_CACHE_FOLDER: '/builds/js/obs-roaming/cache/Cypress'
+  PREPROD_URL: 'https://obs-roaming.jetpulp.work'
+  PROD_URL: 'https://obs-roaming.jetpulp.work'
+
+.build: &build
+  image: node:14
+  stage: build
+  script:
+      - npm install
+#      - npm run lint
+      - npm run generate
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 week
+
+build-preprod:
+  <<: *build
+  only:
+    - develop
+
+build-production:
+  <<: *build
+  only:
+    - master
+
+.deploy: &deploy
+  image: jetpulp/rsync:latest
+  stage: deploy
+  before_script:
+    - gitlabci-notif-slack start \#prj_obs_roaming_servo
+    # Run ssh-agent (inside the build environment)
+    - eval $(ssh-agent -s)
+    # Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    - ssh-add <(echo "$SSH_PRIVATE_KEY_PREPROD")
+    - ssh-add <(echo "$SSH_PRIVATE_KEY_PROD")
+  script:
+    - rsync -e ssh -avz ./dist/* $USER@obs.host.addonline.fr:/srv/www/vhosts/$PATH_PORTAIL/current
+    - gitlabci-notif-slack success \#prj_obs_roaming_servo
+
+deploy-preprod:
+  <<: *deploy
+  variables:
+    USER: '_5632_obs_roaming_pp_83562'
+    PATH_PORTAIL: 'obs-roaming_wp_pp'
+  environment:
+    name: 'preprod'
+    url: $PREPROD_URL
+  only:
+    - develop
+
+deploy-production:
+  <<: *deploy
+  variables:
+    USER: '_5632_obs_roaming_pp_83562'
+    PATH_PORTAIL: 'obs-roaming_wp'
+  environment:
+    name: 'production'
+    url: $PROD_URL
+  only:
+    - master
+  when: manual
