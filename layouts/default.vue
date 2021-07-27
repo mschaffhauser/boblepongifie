@@ -1,5 +1,11 @@
 <template>
-  <div>
+  <div class="container">
+    <header class="row">
+      <div class="col-12 text-center">
+        <h1>BoBlEpOnGiFiE</h1>
+        <i>IdÉe dE PaThEmAn</i>
+      </div>
+    </header>
     <Nuxt />
     <footer class="w-100">
       <div class="col-12 text-center">
@@ -21,8 +27,18 @@ html {
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
 }
+.container {
+  overflow: hidden;
+  margin: 0 auto;
+  min-height: 600px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 footer {
-  position: fixed;
   height: 25px;
   bottom: 0;
 }
