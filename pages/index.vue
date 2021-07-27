@@ -19,6 +19,7 @@
             >
               <b-form-input
                 v-model="text"
+                autocomplete="off"
                 class="flex-grow-0"
                 placeholder="Enter your text"
                 @submit.stop.prevent
