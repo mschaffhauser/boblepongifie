@@ -1,5 +1,3 @@
-# roaming
-
 ## Build Setup
 
 ```bash
@@ -18,14 +16,3 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
-
-
-## EsLint on PhpStorm
-
-https://youtrack.jetbrains.com/issue/WEB-38922
-$ /Applications/PhpStorm.app/Contents/plugins/JavaScriptLanguage/languageService/eslint/bin/eslint-plugin.js
-
-remplace 
-$ this.cliEngine = require(packagePath).CLIEngine; 
-par 
-$ this.cliEngine = require(packagePath + "lib/cli-engine").CLIEngine;
