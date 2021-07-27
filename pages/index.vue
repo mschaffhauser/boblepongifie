@@ -42,6 +42,9 @@
                 <span v-else>Copy ✂️</span>
               </button>
             </div>
+            <div class="col mt-4">
+              <navigator-share :text="newText"></navigator-share>
+            </div>
           </div>
         </div>
       </div>
@@ -50,7 +53,12 @@
 </template>
 
 <script>
+import NavigatorShare from '../components/share.vue'
+
 export default {
+  components: {
+    NavigatorShare,
+  },
   data() {
     return {
       text: '',

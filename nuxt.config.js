@@ -3,8 +3,10 @@ import redirectSSL from 'redirect-ssl'
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
-  router: {
+  generate: {
+    router: {
     base: '/bob/'
+    }
   },
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
