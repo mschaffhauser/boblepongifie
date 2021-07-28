@@ -36,7 +36,11 @@
             </button>
           </div>
           <div class="col mt-4">
-            <navigator-share :text="newText"></navigator-share>
+            <navigator-share
+              v-if="canShare"
+              :on-error="onError"
+              :text="newText"
+            ></navigator-share>
           </div>
         </div>
       </div>
@@ -58,6 +62,13 @@ export default {
     }
   },
   computed: {
+    canShare() {
+      if (navigator.share) {
+        return true
+      }
+      return false
+    },
+
     newText() {
       let i = 0
       const x = this.text.split('').map((currElement, index) => {
@@ -81,6 +92,10 @@ export default {
     },
   },
   methods: {
+    onError(err) {
+      alert(err)
+      console.log(err)
+    },
     async copySomething(text) {
       try {
         this.copied = true
