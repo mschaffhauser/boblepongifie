@@ -1,6 +1,6 @@
 ## Demo
 
-https://mschaffhauser.github.io/bob/
+[https://mschaffhauser.github.io/bob/](https://mschaffhauser.github.io/boblepongifie/)
 
 
 ## Build Setup
